@@ -19,7 +19,7 @@ module FetchUnit # (
 
   input var         [AXILADDRLEN-1:0] i_pc,           // Program Counter
 
-  output var logic                    o_instr_valid,  // Instruction Valid
+  output var logic                    o_fetch_valid,  // Instruction Fetch Valid
   output var logic  [ILEN-1:0]        o_instr_data,   // Instruction Register
 
   if_axi_lite.M                       axi // Instruction Memory Interface
