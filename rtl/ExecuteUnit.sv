@@ -12,19 +12,19 @@ module ExecuteUnit # (
   input var                         clk,
   input var                         rstn,
 
-  input var                         i_pc_wen,
-  input var                         i_calc_bj_addr,
-  input var         [IMADDRLEN-1:0] o_pc,
+  input var                         i_pc_wen,       // PC Write Enable
+  input var                         i_calc_bj_addr, // Calculate Branch/Jump Addr Flag
+  input var         [IMADDRLEN-1:0] o_pc,           // Program Counter
 
-  input var         [XLEN-1:0]      i_rf_src1,
-  input var         [XLEN-1:0]      i_rf_src2,
+  input var         [XLEN-1:0]      i_rf_src1,      // Reg File Source 1
+  input var         [XLEN-1:0]      i_rf_src2,      // Reg File Source 2
 
-  input var                         i_imm_sel,
-  input var         [XLEN-1:0]      i_immediate,
+  input var                         i_imm_sel,      // Immediate Select
+  input var         [XLEN-1:0]      i_immediate,    // Immediate
 
-  input var         [3:0]           i_alu_op,
-  output var logic  [XLEN-1:0]      o_alu_out,
-  output var logic                  o_alu_zero
+  input var         [3:0]           i_alu_op,       // ALU Opcode
+  output var logic  [XLEN-1:0]      o_alu_out,      // ALU Output Register
+  output var logic                  o_alu_zero      // ALU Zero Output Register
 );
 
 
