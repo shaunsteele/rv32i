@@ -23,7 +23,8 @@ module ExecuteUnit # (
   input var         [XLEN-1:0]      i_immediate,
 
   input var         [3:0]           i_alu_op,
-  output var logic  [XLEN-1:0]      o_alu_out
+  output var logic  [XLEN-1:0]      o_alu_out,
+  output var logic                  o_alu_zero
 );
 
 
@@ -90,8 +91,10 @@ ArithmeticLogicUnit #(
 always_ff @(posedge clk) begin
   if (!rstn) begin
     o_alu_out <= 0;
+    o_alu_zero <= 0;
   end else begin
     o_alu_out <= alu_f;
+    o_alu_zero <= alu_z;
   end
 end
 
