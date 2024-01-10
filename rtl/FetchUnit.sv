@@ -5,68 +5,35 @@
 `default_nettype none
 
 module FetchUnit # (
-  parameter int XLEN = 32,
-  parameter int ILEN = 32,
-  parameter int AXILADDRLEN = 32,
-  parameter int AXILDATALEN = XLEN,
-  parameter int PC_INCR = 4,
-  parameter bit [AXILADDRLEN-1:0] PC_INIT = 0
+  parameter int XLEN      = 32,
+  parameter int IMDATALEN = 8
 )(
   input var                           clk,
   input var                           rstn,
 
-  input var                           i_fetch_instr,  // Fetch Enable
+  input var                           i_fetch_valid,
+  output var logic                    o_fetch_ready,
+  input var         [XLEN-1:0]        i_fetch_addr,
 
-  input var         [AXILADDRLEN-1:0] i_pc,           // Program Counter
+  output var logic                    o_instr_valid,
+  input var                           i_instr_ready,
+  output var logic  [IMDATALEN-1:0]   o_instr_data,
 
-  output var logic                    o_fetch_valid,  // Instruction Fetch Valid
-  output var logic  [ILEN-1:0]        o_instr_data,   // Instruction Register
-
-  if_axi_lite.M                       axi // Instruction Memory Interface
+  if_axi_lite.M                       m_axi
 );
 
 
-/* AXI-Lite Instruction RAM Logic */
-// Read Address Channel
-assign axi.araddr = i_pc;
+assign m_axi.arvalid = i_fetch_valid;
+assign o_fetch_ready = o_fetch_ready;
+assign m_axi.awaddr = i_fetch_addr;
 
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    axi.arvalid <= 0;
-  end else begin
-    axi.arvalid <= i_fetch_instr;
-  end
-end
-
-// Read Data Channel
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    axi.rready <= 0;
-  end else begin
-    axi.rready <= 1;
-  end
-end
-
+logic ar_en;
 always_comb begin
-  o_instr_valid = axi.rready & axi.rvalid;
+  ar_en = m_axi.arvalid & m_axi.arready;
 end
 
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    o_instr_data <= 0;
-  end else begin
-    if (o_instr_valid) begin
-      o_instr_data <= axi.rdata[ILEN-1:0];
-    end else begin
-      o_instr_data <= o_instr_data;
-    end
-  end
-end
-
-
-/* Unused AXI-Lite Signals */
-assign axi.awprot = 0;
-assign axi.arprot = 0;
-
+assign o_instr_valid = m_axi.rvalid;
+assign m_axi.rready = o_instr_ready;
+assign o_instr_data = m_axi.rdata;
 
 endmodule
