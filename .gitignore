@@ -1,0 +1,9 @@
+*.jou
+*.log
+*.pb
+*.wdb
+.*.timestamp
+*.vcd
+**/xsim.dir/
+.svlint.toml
+Makefile
