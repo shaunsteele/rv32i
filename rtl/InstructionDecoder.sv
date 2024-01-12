@@ -29,6 +29,8 @@ module InstructionDecoder # (
   output var logic  [4:0]       o_dec_rd
 );
 
+import pkgRiscV::*;
+
 // Incoming Instruction Logic
 logic instr_en;
 always_comb begin

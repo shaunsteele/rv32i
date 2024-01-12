@@ -6,7 +6,7 @@
 
 module FetchUnit # (
   parameter int XLEN      = 32,
-  parameter int IMDATALEN = 8
+  parameter int IMDATALEN = 32
 )(
   input var                           clk,
   input var                           rstn,
@@ -19,13 +19,13 @@ module FetchUnit # (
   input var                           i_instr_ready,
   output var logic  [IMDATALEN-1:0]   o_instr_data,
 
-  if_axi_lite.M                       m_axi
+  if_axi4_lite.M                      m_axi
 );
 
 
 assign m_axi.arvalid = i_fetch_valid;
-assign o_fetch_ready = o_fetch_ready;
-assign m_axi.awaddr = i_fetch_addr;
+assign o_fetch_ready = m_axi.arready;
+assign m_axi.araddr = i_fetch_addr;
 
 logic ar_en;
 always_comb begin
@@ -33,7 +33,7 @@ always_comb begin
 end
 
 assign o_instr_valid = m_axi.rvalid;
-assign m_axi.rready = o_instr_ready;
+assign m_axi.rready = i_instr_ready;
 assign o_instr_data = m_axi.rdata;
 
 endmodule

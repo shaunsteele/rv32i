@@ -1,8 +1,15 @@
-// riscvPkg.sv
+// pkgRiscV.sv
 
 `default_nettype none
 
-package riscvPkg;
+package pkgRiscV;
+
+parameter int STATE_AMOUNT = 3;
+typedef enum logic [STATE_AMOUNT-1:0] {
+  IDLE,
+  FETCH,
+  EXECUTE
+} state_e;
 
 /* Opcode Types */
 localparam bit [6:0] OpIInt     = 7'b0010011;
@@ -71,7 +78,7 @@ localparam logic [16:0] InstLBU   = { 7'bxxxxxxx, 3'b100, OpILoad };
 localparam logic [16:0] InstLHU   = { 7'bxxxxxxx, 3'b101, OpILoad };
 localparam logic [16:0] InstSB    = { 7'bxxxxxxx, 3'b000, OpSStore  };
 localparam logic [16:0] InstSH    = { 7'bxxxxxxx, 3'b001, OpSStore   };
-localparam logic [16:0] InstSW    = { 7'bxxxxxxx, 3'b010, OpStore   };
+localparam logic [16:0] InstSW    = { 7'bxxxxxxx, 3'b010, OpSStore   };
 
 
 /* Program Counter Opcodes */

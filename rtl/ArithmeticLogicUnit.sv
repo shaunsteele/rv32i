@@ -24,7 +24,7 @@ module ArithmeticLogicUnit # (
   output var logic              o_z_valid
 );
 
-import riscvPkg::*;
+import pkgRiscV::*;
 
 // Opcode Input Logic
 logic op_en;

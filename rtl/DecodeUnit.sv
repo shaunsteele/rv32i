@@ -26,7 +26,7 @@ module DecodeUnit # (
 );
 
 
-import riscvPkg::*;
+import pkgRiscV::*;
 
 
 /* Opcode Decode */

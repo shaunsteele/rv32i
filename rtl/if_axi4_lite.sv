@@ -1,8 +1,8 @@
-// if_axi_lite.sv
+// if_axi4_lite.sv
 
 `default_nettype none
 
-interface if_axi_lite # (
+interface if_axi4_lite # (
   parameter int AXILADDRLEN = 32,
   parameter int AXILDATALEN = 32,
   parameter int AXILSTRBLEN = AXILDATALEN / 8
@@ -14,32 +14,33 @@ interface if_axi_lite # (
 
 /* Signals */
 // Write Address Channel
-logic                    awvalid;
-logic                    awready;
-logic [AXILADDRLEN-1:0]  awaddr;
-logic [1:0]              awprot;
+logic                   awvalid;
+logic                   awready;
+logic [AXILADDRLEN-1:0] awaddr;
+logic [1:0]             awprot;
 
 // Write Data Channel
-logic                    wvalid;
-logic                    wready;
-logic [AXILDATALEN-1:0]  wdata;
-logic [AXILSTRBLEN-1:0]  wstrb;
+logic                   wvalid;
+logic                   wready;
+logic [AXILDATALEN-1:0] wdata;
+logic [AXILSTRBLEN-1:0] wstrb;
 
 // Write Response Channel
-logic                    bvalid;
-logic                    bready;
+logic                   bvalid;
+logic                   bready;
+logic [1:0]             bresp;
 
 // Read Address Channel
-logic                    arvalid;
-logic                    arready;
-logic [AXILADDRLEN-1:0]  araddr;
-logic [1:0]              arprot;
+logic                   arvalid;
+logic                   arready;
+logic [AXILADDRLEN-1:0] araddr;
+logic [1:0]             arprot;
 
 // Read Data Channel
-logic                    rvalid;
-logic                    rready;
-logic [AXILDATALEN-1:0]  rdata;
-
+logic                   rvalid;
+logic                   rready;
+logic [AXILDATALEN-1:0] rdata;
+logic [1:0]             rresp;
 
 /* Modports */
 modport M (
