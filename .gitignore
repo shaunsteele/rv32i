@@ -7,3 +7,6 @@
 **/xsim.dir/
 .svlint.toml
 Makefile
+**/sim_build/
+**/__pycache__
+*.xml
