@@ -27,12 +27,12 @@ module StateMachine # (
 // State Machine Enable Flag
 logic state_en;
 always_comb begin
-  state_en = o_state_valid & i_state_ready;
+  state_en = /*o_state_valid &*/ i_state_ready;
 end
 
 // State Definitions
 state_e next_state;
-state_e curr_state;
+state_e curr_state = IDLE;
 
 assign o_state_data = curr_state;
 
@@ -61,65 +61,86 @@ always_comb begin
   eu_execute_en = /*o_eu_execute_valid*/ & i_eu_execute_ready;
 end
 
-always_comb begin
-  case (curr_state)
-    IDLE: begin
-      o_fu_fetch_valid = 1;
-      o_fu_instr_ready = 0;
-      o_eu_execute_valid = 0;
-      if (!state_en) begin
-        next_state = IDLE;
-      end else begin
-        if (fu_fetch_en) begin
-          next_state = FETCH;
-        end else begin
-          next_state = IDLE;
-        end
-      end
-    end
-
-    FETCH: begin
-      o_fu_fetch_valid = 0;
-      o_fu_instr_ready = 1;
-      o_eu_execute_valid = 0;
-      if (!state_en) begin
-        next_state = IDLE;
-      end else begin
-        if (fu_instr_en) begin
-          next_state = EXECUTE;
-        end else begin
-          next_state = FETCH;
-        end
-      end
-    end
-
-    EXECUTE: begin
-      o_fu_fetch_valid = 1;
-      o_fu_instr_ready = 0;
-      o_eu_execute_valid = 1;
-      if (!state_en) begin
-        next_state = IDLE;
-      end else begin
-        if (eu_execute_en) begin
-          next_state = FETCH;
-        end else begin
-          next_state = EXECUTE;
-        end
-      end
-    end
-
-    default: begin
-      o_fu_fetch_valid = 0;
-      o_fu_instr_ready = 0;
-      o_eu_execute_valid = 0;
-      next_state = IDLE;
-      $error(
-        "Illegal state encountered: %s\t0x%0h", curr_state.name, curr_state
-        );
-    end
-  endcase
+logic rstn_q;
+always_ff @(posedge clk) begin
+  rstn_q <= rstn;
 end
 
+always_comb begin
+  if (!rstn_q) begin
+    o_fu_fetch_valid = 0;
+    o_fu_instr_ready = 0;
+    o_eu_execute_valid = 0;
+    next_state = IDLE;
+  end else begin
+    case (curr_state)
+      IDLE: begin
+        o_fu_fetch_valid = 1;
+        o_fu_instr_ready = 0;
+        o_eu_execute_valid = 0;
+        if (!state_en) begin
+          next_state = IDLE;
+        end else begin
+          if (fu_fetch_en) begin
+            next_state = FETCH;
+          end else begin
+            next_state = IDLE;
+          end
+        end
+      end
+
+      FETCH: begin
+        o_fu_fetch_valid = 0;
+        o_fu_instr_ready = 1;
+        o_eu_execute_valid = 0;
+        if (!state_en) begin
+          next_state = IDLE;
+        end else begin
+          if (fu_instr_en) begin
+            next_state = EXECUTE;
+          end else begin
+            next_state = FETCH;
+          end
+        end
+      end
+
+      EXECUTE: begin
+        o_fu_fetch_valid = 1;
+        o_fu_instr_ready = 0;
+        o_eu_execute_valid = 1;
+        if (!state_en) begin
+          next_state = IDLE;
+        end else begin
+          if (eu_execute_en) begin
+            next_state = FETCH;
+          end else begin
+            next_state = EXECUTE;
+          end
+        end
+      end
+
+      default: begin
+        o_fu_fetch_valid = 0;
+        o_fu_instr_ready = 0;
+        o_eu_execute_valid = 0;
+        next_state = IDLE;
+        $error(
+          "Illegal state encountered: %s\t0x%0h", curr_state.name, curr_state
+          );
+      end
+    endcase
+  end
+end
+
+always_ff @(posedge clk) begin
+  if (!rstn) begin
+    o_state_valid <= 0;
+  end else begin
+    o_state_valid <=  next_state == IDLE ||
+                      next_state == FETCH ||
+                      next_state == EXECUTE;
+  end
+end
 
 
 endmodule

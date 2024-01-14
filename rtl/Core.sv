@@ -25,13 +25,19 @@ module Core # (
   output var state_e            o_dbg_state_data,
   output var logic  [XLEN-1:0]  o_dbg_instr_data,
   input var         [XLEN-1:0]  i_dbg_imm_data,
+  input var         [1:0]       i_dbg_pc_incr_op,
   output var logic  [XLEN-1:0]  o_dbg_pc_data
 );
 
 
 /* Fetch Unit */
-logic             cu_fetch_valid;
-logic             eu_pc_valid;
+logic cu_fetch_valid;
+logic eu_pc_valid;
+logic fetch_and_pc_valid;
+always_comb begin
+  fetch_and_pc_valid = cu_fetch_valid & eu_pc_valid;
+end
+
 logic             fu_fetch_ready;
 logic [XLEN-1:0]  eu_pc_data;
 logic             sb_fetch_valid;
@@ -41,7 +47,7 @@ logic [XLEN-1:0]  sb_fetch_addr;
 SkidBuffer # (XLEN) u_FETCH_BUF (
   .clk      (clk),
   .rstn     (rstn),
-  .i_valid  (cu_fetch_valid & eu_pc_valid),
+  .i_valid  (fetch_and_pc_valid),
   .o_ready  (fu_fetch_ready),
   .i_data   (eu_pc_data),
   .o_valid  (sb_fetch_valid),
@@ -81,11 +87,13 @@ ExecuteUnit # (
   .i_execute_valid  (cu_execute_valid),
   .o_execute_ready  (eu_execute_ready),
   .i_imm_data       (i_dbg_imm_data),
-  .i_pc_incr_op     (cu_pc_incr_op),
+  // .i_pc_incr_op     (cu_pc_incr_op),
+  .i_pc_incr_op     (i_dbg_pc_incr_op),
   .o_pc_valid       (eu_pc_valid),
-  .o_pc_data        (o_dbg_pc_data)
+  .o_pc_data        (eu_pc_data)
 );
 
+assign o_dbg_pc_data = eu_pc_data;
 
 /* Control Unit */
 ControlUnit # (.XLEN(XLEN)) u_CU (

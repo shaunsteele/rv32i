@@ -25,7 +25,7 @@ module FetchUnit # (
 
 assign m_axi.arvalid = i_fetch_valid;
 assign o_fetch_ready = m_axi.arready;
-assign m_axi.araddr = i_fetch_addr;
+assign m_axi.araddr = i_fetch_addr >> 2;
 
 logic ar_en;
 always_comb begin
