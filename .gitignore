@@ -10,3 +10,4 @@ Makefile
 **/sim_build/
 **/__pycache__
 *.xml
+**/.archive
