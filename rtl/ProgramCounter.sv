@@ -1,78 +1,74 @@
-// ProgramCounter.sv
+// Program Counter
 
 `default_nettype none
 
-module ProgramCounter #(
+`include "riscv.svh"
+
+module ProgramCounter # (
   parameter int XLEN = 32
 )(
-  input var                     clk,
-  input var                     rstn,
+  input var         clk,
+  input var         rstn,
 
-  input var                     i_incr_valid,
-  input var         [1:0]       i_incr_op,
-  input var         [XLEN-1:0]  i_incr_data,
-
-  output var logic              o_pc_valid,
-  output var logic  [XLEN-1:0]  o_pc_data
+  input var         [XLEN-1:0]  i_op,
+  input var         [XLEN-1:0]  i_id_imm_data,
+  input var         [XLEN-1:0]  i_alu_res_data,
+  output var logic  [XLEN-1:0]  o_data,
+  output var logic  [XLEN-1:0]  o_ret_data
 );
 
-import pkgRiscV::*;
-
-// Opcode Handshake
-logic incr_en;
+/* PC Logic */
+logic [XLEN-1:0]  pc;
+logic [XLEN-1:0]  pc_d;
 always_comb begin
-  incr_en = i_incr_valid;
+  unique case (i_op)
+    PcStop: begin
+      pc_d = pc;
+    end
+
+    PcIncr: begin
+      pc_d = pc + 4;
+    end
+
+    PcJAL: begin
+      pc_d = i_incr_data;
+    end
+
+    PcJALR: begin
+      pc_d = pc + i_alu_res_data;
+    end
+
+    PcBranch: begin
+      pc_d = pc + i_imm_data;
+    end
+
+    PcRsvd: begin
+      pc_d = pc;
+      $warning("Unsupported PC Opcode: 0b%02b", i_op);
+    end
+
+    default: begin
+      pc_d = 0;
+      $error("Illegal PC Opcode: 0b%02b", i_op);
+    end
+  endcase
 end
 
-// Program Counter Logic
-logic [XLEN-1:0] next_pc;
-logic [XLEN-1:0] pc;
 
-always_comb begin
-  if (incr_en) begin
-    case (i_incr_op)
-      PcIncr: begin
-        next_pc = pc + 4;
-      end
-
-      PcJump: begin
-        next_pc = i_incr_data;
-      end
-
-      PcBranch: begin
-        next_pc = pc + i_incr_data;
-      end
-
-      PcRsvd: begin
-        next_pc = pc;
-        $warning("Unsupported PC Opcode: 0b%02b", i_incr_op);
-      end
-
-      default: begin
-        next_pc = pc;
-        $error("Illegal PC Opcode: 0b%02b", i_incr_op);
-      end
-    endcase
-  end else begin
-    next_pc = pc;
-  end
-end
-
-// Program Counter Register
+/* PC Register */
 always_ff @(posedge clk) begin
   if (!rstn) begin
     pc <= 0;
   end else begin
-    pc <= next_pc;
+    pc <= pc_d;
   end
 end
 
-assign o_pc_data = pc;
+assign o_data = pc;
 
-// Address Valid
-always_ff @(posedge clk) begin
-  o_pc_valid <= rstn;
+// Return PC Value
+always_comb begin
+  o_ret_data = pc + 4;
 end
-
 
 endmodule

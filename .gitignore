@@ -11,3 +11,4 @@ Makefile
 **/__pycache__
 *.xml
 **/.archive
+**/archive*

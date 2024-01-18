@@ -1,39 +1,40 @@
-//  FetchUnit.sv
-//    Interfaces with the Read Address and Data Channels
-//    of the Instruction Memory to fetch instructions
+// FetchUnit.sv
 
 `default_nettype none
 
 module FetchUnit # (
-  parameter int XLEN      = 32,
-  parameter int IMDATALEN = 32
+  parameter int XLEN = 32
 )(
-  input var                           clk,
-  input var                           rstn,
+  input var clk,
+  input var rstn,
 
-  input var                           i_fetch_valid,
-  output var logic                    o_fetch_ready,
-  input var         [XLEN-1:0]        i_fetch_addr,
+  // Program Counter
+  input var         [2:0]       i_pc_op,
+  input var         [XLEN-1:0]  i_pc_id_imm_data,
+  input var         [XLEN-1:0]  i_pc_alu_res_data,
+  output var logic  [XLEN-1:0]  o_pc_data,
+  output var logic  [XLEN-1:0]  o_pc_ret_data,
 
-  output var logic                    o_instr_valid,
-  input var                           i_instr_ready,
-  output var logic  [IMDATALEN-1:0]   o_instr_data,
-
-  if_axi4_lite.M                      m_axi
+  // Instruction Memory Bus
+  output var logic  [XLEN-1:0]  o_im_raddr
 );
 
 
-assign m_axi.arvalid = i_fetch_valid;
-assign o_fetch_ready = m_axi.arready;
-assign m_axi.araddr = i_fetch_addr >> 2;
+/* Program Counter */
+ProgramCounter # (.XLEN(XLEN)) u_PC (
+  .clk            (clk),
+  .rstn           (rstn),
+  .i_op           (i_pc_op),
+  .i_id_imm_data  (i_pc_id_imm_data),
+  .i_alu_res_data (i_pc_alu_res_data),
+  .i_incr_data    (i_pc_incr_data),
+  .o_data         (o_pc_data),
+  .o_ret_data     (o_pc_ret_data)
+);
 
-logic ar_en;
-always_comb begin
-  ar_en = m_axi.arvalid & m_axi.arready;
-end
 
-assign o_instr_valid = m_axi.rvalid;
-assign m_axi.rready = i_instr_ready;
-assign o_instr_data = m_axi.rdata;
+/* Instruction Memory Bus */
+assign o_im_raddr = pc_data;
+
 
 endmodule
