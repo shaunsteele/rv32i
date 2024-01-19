@@ -28,7 +28,6 @@ ProgramCounter # (.XLEN(XLEN)) u_PC (
   .i_op           (i_pc_op),
   .i_id_imm_data  (i_pc_id_imm_data),
   .i_alu_res_data (i_pc_alu_res_data),
-  .i_incr_data    (i_pc_incr_data),
   .o_data         (o_pc_data),
   .o_imm_data     (o_pc_imm_data),
   .o_ret_data     (o_pc_ret_data)
@@ -36,7 +35,7 @@ ProgramCounter # (.XLEN(XLEN)) u_PC (
 
 
 /* Instruction Memory Bus */
-assign o_im_raddr = pc_data;
+assign o_im_raddr = o_pc_data;
 
 
 endmodule

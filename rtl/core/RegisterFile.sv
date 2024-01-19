@@ -7,11 +7,11 @@ module RegisterFile # (
 )(
   input var                     clk,
   input var                     rstn,
-  
+
   // Read Interface
   input var         [4:0]       i_rs1_raddr,
   output var logic  [XLEN-1:0]  o_rs1_rdata,
-  
+
   input var         [4:0]       i_rs2_raddr,
   output var logic  [XLEN-1:0]  o_rs2_rdata,
 
@@ -28,8 +28,8 @@ logic [XLEN-1:0] register_file[32];
 
 /* Read Logic */
 always_comb begin
-  rs2_rdata = register_file[i_rs2_raddr];
-  rs1_rdata = register_file[i_rs1_raddr];
+  o_rs2_rdata = register_file[i_rs2_raddr];
+  o_rs1_rdata = register_file[i_rs1_raddr];
 end
 
 

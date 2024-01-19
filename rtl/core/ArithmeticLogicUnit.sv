@@ -2,7 +2,7 @@
 
 `default_nettype none
 
-`include "riscv.svh"
+`include "core.svh"
 
 module ArithmeticLogicUnit # (
   parameter int XLEN = 32
@@ -37,12 +37,13 @@ end
 
 
 /* ALU Operation */
+logic [XLEN-1:0]  res;
 always_comb begin
   unique case (i_op_data)
     AluAdd:   res = a + b;
     AluSub:   res = a - b;
-    AluSlt:   res = $signed(a) < $signed(b);
-    AluSltu:  res = $unsigned(a) < $unsigned(b);
+    AluSlt:   res = {31'b0, $signed(a) < $signed(b)};
+    AluSltu:  res = {31'b0, $unsigned(a) < $unsigned(b)};
     AluXor:   res = a ^ b;
     AluOr:    res = a | b;
     AluAnd:   res = a & b;
@@ -50,10 +51,13 @@ always_comb begin
     AluSra:   res = $signed(a) >>> b;
     default: begin
       res = 0;
-      $error("Unsupported ALU Opcode: 0b%04b", i_op);
+      $error("Unsupported ALU Opcode: 0b%04b", i_op_data);
     end
   endcase
 end
+
+assign o_res_data = res;
+assign o_res_zero = ~|res;
 
 
 endmodule

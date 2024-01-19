@@ -54,7 +54,7 @@ always_comb begin
                                   i_alu_rf_rs2_rdata[15:0]
                                 };
     MemB, MemBU:  o_dm_wdata  = {
-                                  {(XLEN-7){i_alu_rf_rs2_rdata[7]}},
+                                  {(XLEN-8){i_alu_rf_rs2_rdata[7]}},
                                   i_alu_rf_rs2_rdata[7:0]
                                 };
     default: begin

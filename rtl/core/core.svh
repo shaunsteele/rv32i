@@ -1,4 +1,4 @@
-// riscv.svh
+// core.svh
 `ifndef __RISCV
 `define __RISCV
 
@@ -7,9 +7,9 @@
 localparam bit [2:0] PcStop   = 3'b000;
 localparam bit [2:0] PcIncr   = 3'b001;
 localparam bit [2:0] PcJAL    = 3'b010;
-localparam bit [2:0] pcJALR   = 3'b011;
+localparam bit [2:0] PcJALR   = 3'b011;
 localparam bit [2:0] PcBranch = 3'b100;
-localparam bit [2:0] PcRSvd   = 3'b101;
+localparam bit [2:0] PcRsvd   = 3'b101;
 
 
 /* Instruction Opcode Types */

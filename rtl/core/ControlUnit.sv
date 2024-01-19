@@ -2,7 +2,7 @@
 
 `default_nettype none
 
-`include "riscv.svh"
+`include "core.svh"
 
 module ControlUnit(
   // Operational Instruction Input
@@ -22,7 +22,7 @@ module ControlUnit(
 );
 
 always_comb begin
-  unique case ({i_du_id_funct7, i_du_id_funct3, i_du_id_opcode})
+  unique casez ({i_du_id_funct7, i_du_id_funct3, i_du_id_opcode})
     // Integer Register-Immediate Instructions
     InstADDI: begin
       o_fu_pc_op_data   = PcIncr;

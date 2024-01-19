@@ -2,7 +2,7 @@
 
 `default_nettype none
 
-`include "riscv.svh"
+`include "core.svh"
 
 module ProgramCounter # (
   parameter int XLEN = 32
@@ -10,7 +10,7 @@ module ProgramCounter # (
   input var         clk,
   input var         rstn,
 
-  input var         [XLEN-1:0]  i_op,
+  input var         [2:0]       i_op,
   input var         [XLEN-1:0]  i_id_imm_data,
   input var         [XLEN-1:0]  i_alu_res_data,
   output var logic  [XLEN-1:0]  o_data,
@@ -32,7 +32,7 @@ always_comb begin
     end
 
     PcJAL: begin
-      pc_d = i_incr_data;
+      pc_d = i_id_imm_data;
     end
 
     PcJALR: begin
@@ -40,7 +40,7 @@ always_comb begin
     end
 
     PcBranch: begin
-      pc_d = pc + i_imm_data;
+      pc_d = pc + i_id_imm_data;
     end
 
     PcRsvd: begin
