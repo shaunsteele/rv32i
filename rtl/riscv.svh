@@ -26,19 +26,6 @@ localparam bit [6:0] OpMMem     = 7'b0001111;
 localparam bit [6:0] OpSystem   = 7'b0;
 
 
-/* ALU Opcodes */
-localparam bit [3:0] AluAdd   = 4'b0000;
-localparam bit [3:0] AluSub   = 4'b1000;
-localparam bit [3:0] AluSll   = 4'b0001;
-localparam bit [3:0] AluSlt   = 4'b0010;
-localparam bit [3:0] AluSltu  = 4'b0011;
-localparam bit [3:0] AluXor   = 4'b0100;
-localparam bit [3:0] AluSrl   = 4'b0101;
-localparam bit [3:0] AluSra   = 4'b1101;
-localparam bit [3:0] AluOr    = 4'b0110;
-localparam bit [3:0] AluAnd   = 4'b0111;
-
-
 /* Instruction Decode */
 // Format: { funct7, funct3, opcode }
 localparam logic [16:0] InstADDI  = { 7'b???????, 3'b000, OpIInt    };
@@ -78,6 +65,35 @@ localparam logic [16:0] InstLHU   = { 7'b???????, 3'b101, OpILoad   };
 localparam logic [16:0] InstSB    = { 7'b???????, 3'b000, OpSStore  };
 localparam logic [16:0] InstSH    = { 7'b???????, 3'b001, OpSStore  };
 localparam logic [16:0] InstSW    = { 7'b???????, 3'b010, OpSStore  };
+
+
+/* ALU Opcodes */
+localparam bit [3:0] AluAdd   = 4'b0000;
+localparam bit [3:0] AluSub   = 4'b1000;
+localparam bit [3:0] AluSll   = 4'b0001;
+localparam bit [3:0] AluSlt   = 4'b0010;
+localparam bit [3:0] AluSltu  = 4'b0011;
+localparam bit [3:0] AluXor   = 4'b0100;
+localparam bit [3:0] AluSrl   = 4'b0101;
+localparam bit [3:0] AluSra   = 4'b1101;
+localparam bit [3:0] AluOr    = 4'b0110;
+localparam bit [3:0] AluAnd   = 4'b0111;
+
+
+/* Memory Opcodes */
+localparam bit [2:0]  MemW  = 3'b000;
+localparam bit [2:0]  MemH  = 3'b001;
+localparam bit [2:0]  MemHU = 3'b010;
+localparam bit [2:0]  MemB  = 3'b011;
+localparam bit [2:0]  MemBU = 3'b100;
+
+
+/* Write-back Opcodes */
+localparam bit [2:0]  WbAlu   = 3'b000;
+localparam bit [2:0]  WbImm   = 3'b001;
+localparam bit [2:0]  WbPcImm = 3'b010;
+localparam bit [2:0]  WbPcRet = 3'b011;
+localparam bit [2:0]  WbDm    = 3'b100;
 
 
 `endif

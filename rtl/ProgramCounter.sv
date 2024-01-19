@@ -14,6 +14,7 @@ module ProgramCounter # (
   input var         [XLEN-1:0]  i_id_imm_data,
   input var         [XLEN-1:0]  i_alu_res_data,
   output var logic  [XLEN-1:0]  o_data,
+  output var logic  [XLEN-1:0]  o_imm_data,
   output var logic  [XLEN-1:0]  o_ret_data
 );
 
@@ -68,6 +69,7 @@ assign o_data = pc;
 
 // Return PC Value
 always_comb begin
+  o_imm_data = pc + i_id_imm_data;
   o_ret_data = pc + 4;
 end
 

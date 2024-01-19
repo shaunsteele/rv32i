@@ -13,6 +13,7 @@ module FetchUnit # (
   input var         [XLEN-1:0]  i_pc_id_imm_data,
   input var         [XLEN-1:0]  i_pc_alu_res_data,
   output var logic  [XLEN-1:0]  o_pc_data,
+  output var logic  [XLEN-1:0]  o_pc_imm_data,
   output var logic  [XLEN-1:0]  o_pc_ret_data,
 
   // Instruction Memory Bus
@@ -29,6 +30,7 @@ ProgramCounter # (.XLEN(XLEN)) u_PC (
   .i_alu_res_data (i_pc_alu_res_data),
   .i_incr_data    (i_pc_incr_data),
   .o_data         (o_pc_data),
+  .o_imm_data     (o_pc_imm_data),
   .o_ret_data     (o_pc_ret_data)
 );
 
