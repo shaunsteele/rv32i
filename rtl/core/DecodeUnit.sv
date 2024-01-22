@@ -32,6 +32,7 @@ logic [4:0] id_rs2_raddr;
 logic [4:0] id_rs1_raddr;
 logic [4:0] id_rd_waddr;
 InstructionDecode # (.XLEN(XLEN)) u_ID (
+  .rstn         (rstn),
   .i_im_rdata   (i_im_rdata),
   .o_opcode     (o_id_opcode),
   .o_funct7     (o_id_funct7),
@@ -42,6 +43,9 @@ InstructionDecode # (.XLEN(XLEN)) u_ID (
   .o_rd_waddr   (id_rd_waddr)
 );
 
+assign dbg_rf_rs1_raddr = id_rs1_raddr;
+assign dbg_rf_rs2_raddr = id_rs2_raddr;
+assign dbg_rf_rd_waddr = id_rd_waddr;
 
 /* Register File */
 RegisterFile # (.XLEN(XLEN)) u_RF (

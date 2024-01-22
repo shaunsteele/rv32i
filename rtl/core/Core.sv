@@ -66,7 +66,6 @@ FetchUnit # (.XLEN(XLEN)) u_FU (
 );
 
 assign dbg_fu_pc_data = fu_pc_data;
-assign dbg_fu_instruction = o_im_raddr;
 
 
 /* Decode Unit */
@@ -94,6 +93,7 @@ DecodeUnit # (.XLEN(XLEN)) u_DU (
   .dbg_rf_rd_waddr  (dbg_du_rf_rd_waddr)
 );
 
+assign dbg_fu_instruction = i_im_rdata;
 assign dbg_du_id_opcode = du_id_opcode;
 assign dbg_du_id_funct7 = du_id_funct7;
 assign dbg_du_id_funct3 = du_id_funct3;

@@ -4,25 +4,25 @@
 
 
 /* PC Opcodes */
-localparam bit [2:0] PcStop   = 3'b000;
-localparam bit [2:0] PcIncr   = 3'b001;
-localparam bit [2:0] PcJAL    = 3'b010;
-localparam bit [2:0] PcJALR   = 3'b011;
-localparam bit [2:0] PcBranch = 3'b100;
-localparam bit [2:0] PcRsvd   = 3'b101;
+localparam bit [2:0] PcStop   = 3'b000; // x0
+localparam bit [2:0] PcIncr   = 3'b001; // x1
+localparam bit [2:0] PcJAL    = 3'b010; // x2
+localparam bit [2:0] PcJALR   = 3'b011; // x3
+localparam bit [2:0] PcBranch = 3'b100; // x4
+localparam bit [2:0] PcRsvd   = 3'b101; // x5
 
 
 /* Instruction Opcode Types */
-localparam bit [6:0] OpIInt     = 7'b0010011;
-localparam bit [6:0] OpUImm     = 7'b0110111;
-localparam bit [6:0] OpUPc      = 7'b0010111;
-localparam bit [6:0] OpRInt     = 7'b0110011;
-localparam bit [6:0] OpUJump    = 7'b1101111;
-localparam bit [6:0] OpIJump    = 7'b1100111;
-localparam bit [6:0] OpSBranch  = 7'b1100011;
-localparam bit [6:0] OpILoad    = 7'b0000011;
-localparam bit [6:0] OpSStore   = 7'b0100011;
-localparam bit [6:0] OpMMem     = 7'b0001111;
+localparam bit [6:0] OpIInt     = 7'b0010011; // x13
+localparam bit [6:0] OpUImm     = 7'b0110111; // x37
+localparam bit [6:0] OpUPc      = 7'b0010111; // x17
+localparam bit [6:0] OpRInt     = 7'b0110011; // x33
+localparam bit [6:0] OpUJump    = 7'b1101111; // x6F
+localparam bit [6:0] OpIJump    = 7'b1100111; // x67
+localparam bit [6:0] OpSBranch  = 7'b1100011; // x63
+localparam bit [6:0] OpILoad    = 7'b0000011; // x03
+localparam bit [6:0] OpSStore   = 7'b0100011; // x23
+localparam bit [6:0] OpMMem     = 7'b0001111; // x0F
 localparam bit [6:0] OpSystem   = 7'b0;
 
 
@@ -68,32 +68,32 @@ localparam logic [16:0] InstSW    = { 7'b???????, 3'b010, OpSStore  };
 
 
 /* ALU Opcodes */
-localparam bit [3:0] AluAdd   = 4'b0000;
-localparam bit [3:0] AluSub   = 4'b1000;
-localparam bit [3:0] AluSll   = 4'b0001;
-localparam bit [3:0] AluSlt   = 4'b0010;
-localparam bit [3:0] AluSltu  = 4'b0011;
-localparam bit [3:0] AluXor   = 4'b0100;
-localparam bit [3:0] AluSrl   = 4'b0101;
-localparam bit [3:0] AluSra   = 4'b1101;
-localparam bit [3:0] AluOr    = 4'b0110;
-localparam bit [3:0] AluAnd   = 4'b0111;
+localparam bit [3:0] AluAdd   = 4'b0000;  // x0
+localparam bit [3:0] AluSub   = 4'b1000;  // x8
+localparam bit [3:0] AluSll   = 4'b0001;  // x1
+localparam bit [3:0] AluSlt   = 4'b0010;  // x2
+localparam bit [3:0] AluSltu  = 4'b0011;  // x3
+localparam bit [3:0] AluXor   = 4'b0100;  // x4
+localparam bit [3:0] AluSrl   = 4'b0101;  // x5
+localparam bit [3:0] AluSra   = 4'b1101;  // xD
+localparam bit [3:0] AluOr    = 4'b0110;  // x6
+localparam bit [3:0] AluAnd   = 4'b0111;  // x7
 
 
 /* Memory Opcodes */
-localparam bit [2:0]  MemW  = 3'b000;
-localparam bit [2:0]  MemH  = 3'b001;
-localparam bit [2:0]  MemHU = 3'b010;
-localparam bit [2:0]  MemB  = 3'b011;
-localparam bit [2:0]  MemBU = 3'b100;
+localparam bit [2:0]  MemW  = 3'b000; // x0
+localparam bit [2:0]  MemH  = 3'b001; // x1
+localparam bit [2:0]  MemHU = 3'b010; // x2
+localparam bit [2:0]  MemB  = 3'b011; // x3
+localparam bit [2:0]  MemBU = 3'b100; // x4
 
 
 /* Write-back Opcodes */
-localparam bit [2:0]  WbAlu   = 3'b000;
-localparam bit [2:0]  WbImm   = 3'b001;
-localparam bit [2:0]  WbPcImm = 3'b010;
-localparam bit [2:0]  WbPcRet = 3'b011;
-localparam bit [2:0]  WbDm    = 3'b100;
+localparam bit [2:0]  WbAlu   = 3'b000; // x0
+localparam bit [2:0]  WbImm   = 3'b001; // x1
+localparam bit [2:0]  WbPcImm = 3'b010; // x2
+localparam bit [2:0]  WbPcRet = 3'b011; // x3
+localparam bit [2:0]  WbDm    = 3'b100; // x4
 
 
 `endif

@@ -396,7 +396,7 @@ always_comb begin
 
     default: begin  // NOP
       o_fu_pc_op_data   = PcIncr;
-      o_eu_alu_imm_sel  = 0;
+      o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
       o_eu_dm_wvalid    = 0;
       o_eu_dm_op_data   = MemW;

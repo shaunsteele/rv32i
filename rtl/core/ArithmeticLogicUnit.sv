@@ -48,6 +48,7 @@ always_comb begin
     AluOr:    res = a | b;
     AluAnd:   res = a & b;
     AluSll:   res = a << b;
+    AluSrl:   res = a >> b;
     AluSra:   res = $signed(a) >>> b;
     default: begin
       res = 0;
