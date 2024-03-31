@@ -63,7 +63,7 @@ always_comb begin
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
-    
+
     InstORI: begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
@@ -73,7 +73,7 @@ always_comb begin
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
-    
+
     InstANDI: begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
@@ -164,7 +164,7 @@ always_comb begin
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
-    
+
     InstOR: begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
@@ -174,7 +174,7 @@ always_comb begin
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
-    
+
     InstAND: begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
