@@ -18,9 +18,33 @@ module ProgramCounter # (
   output var logic  [XLEN-1:0]  o_ret_data
 );
 
-/* PC Logic */
+/* PC Register */
 logic [XLEN-1:0]  pc;
 logic [XLEN-1:0]  pc_d;
+always_ff @(posedge clk) begin
+  if (!rstn) begin
+    pc <= 0;
+  end else begin
+    pc <= pc_d;
+  end
+end
+
+
+/* PC Logic */
+// Adders
+logic pc_incr;
+always_comb begin
+  pc_incr = pc + 4;
+end
+
+assign o_ret_data = pc_incr;
+
+logic pc_branch;
+always_comb begin
+  pc_branch = pc + i_id_imm_data;
+end
+
+// Mux
 always_comb begin
   unique case (i_op)
     PcStop: begin
@@ -28,7 +52,7 @@ always_comb begin
     end
 
     PcIncr: begin
-      pc_d = pc + 4;
+      pc_d = pc_incr;
     end
 
     PcJAL: begin
@@ -40,7 +64,7 @@ always_comb begin
     end
 
     PcBranch: begin
-      pc_d = pc + i_id_imm_data;
+      pc_d = pc_branch;
     end
 
     PcRsvd: begin
@@ -55,22 +79,5 @@ always_comb begin
   endcase
 end
 
-
-/* PC Register */
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    pc <= 0;
-  end else begin
-    pc <= pc_d;
-  end
-end
-
-assign o_data = pc;
-
-// Return PC Value
-always_comb begin
-  o_imm_data = pc + i_id_imm_data;
-  o_ret_data = pc + 4;
-end
 
 endmodule
