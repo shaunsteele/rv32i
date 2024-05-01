@@ -6,7 +6,6 @@
 *.vcd
 **/xsim.dir/
 .*.toml
-Makefile
 **/sim_build/
 **/__pycache__
 *.xml
