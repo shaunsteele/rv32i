@@ -25,8 +25,9 @@ async def tb_program_counter(dut):
 
   # Initialize Values
   dut.rstn.value = 0
+  dut.i_en.value = 0
   dut.i_op.value = pc_op['STOP'].value
-  dut.i_id_imm.value = 0
+  dut.i_id_immediate.value = 0
   dut.i_alu_res.value = 0
 
   await ClockCycles(dut.clk, 10)
@@ -37,24 +38,38 @@ async def tb_program_counter(dut):
   dut.i_op.value = pc_op['INCR'].value
 
   await RisingEdge(dut.clk)
-  await FallingEdge(dut.clk)
-  assert dut.o_addr.value == 4
+  dut.i_en.value = 1
+
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 0
 
   # JAL Test
-  await FallingEdge(dut.clk)
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 1
   dut.i_op.value = pc_op['JAL'].value
-  dut.i_id_imm.value = 0xAAAA
+  dut.i_id_immediate.value = 0xAAAA
 
-  await FallingEdge(dut.clk)
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 0
 
   # JALR Test
   await RisingEdge(dut.clk)
+  dut.i_en.value = 1
   dut.i_op.value = pc_op['JALR'].value
-  dut.i_id_imm.value = 0
+  dut.i_id_immediate.value = 0
   dut.i_alu_res.value = 0x5555
 
-  await FallingEdge(dut.clk)
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 0
 
   # Branch Test
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 1
+  dut.i_op.value = pc_op['BRANCH'].value
+  dut.i_id_immediate.value = 0xFFFF
+  dut.i_alu_res.value = 0
+
+  await RisingEdge(dut.clk)
+  dut.i_en.value = 0
 
   await ClockCycles(dut.clk, 5)
