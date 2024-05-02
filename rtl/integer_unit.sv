@@ -1,10 +1,10 @@
-// ArithmeticLogicUnit.sv
+// integer_unit.sv
 
 `default_nettype none
 
 `include "core.svh"
 
-module ArithmeticLogicUnit # (
+module integer_unit # (
   parameter int XLEN = 32
 )(
   input var         [XLEN-1:0]  i_id_imm,
