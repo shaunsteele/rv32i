@@ -15,8 +15,11 @@ module ControlUnit(
   output var logic  [2:0] o_fu_pc_op_data,
   output var logic        o_eu_alu_imm_sel,
   output var logic  [3:0] o_eu_alu_op_data,
-  output var logic        o_eu_dm_wvalid,
-  output var logic  [2:0] o_eu_dm_op_data,
+  output var logic  [2:0] o_eu_lsu_store_op,
+  output var logic        o_eu_lsu_store_en,
+  output var logic  [1:0] o_eu_lsu_load_op,
+  // output var logic        o_eu_dm_wvalid,
+  // output var logic  [2:0] o_eu_dm_op_data,
   output var logic        o_du_rf_rd_wvalid,
   output var logic  [2:0] o_eu_wb_op_data
 );
@@ -28,8 +31,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -38,8 +44,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluSlt;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -48,8 +57,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluSltu;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -58,8 +70,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluXor;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -68,8 +83,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluOr;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -78,8 +96,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAnd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -88,8 +109,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluSll;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -98,8 +122,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluSra;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -108,7 +135,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbImm;
     end
@@ -117,8 +148,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbPcImm;
     end
@@ -129,8 +163,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -139,8 +176,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSlt;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -149,8 +189,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSlt;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -159,8 +202,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluXor;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -169,8 +215,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluOr;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -179,8 +228,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluAnd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -189,8 +241,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSll;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -199,8 +254,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSrl;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -209,8 +267,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSub;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -219,8 +280,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSra;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -231,8 +295,11 @@ always_comb begin
       o_fu_pc_op_data   = PcJAL;
       o_eu_alu_imm_sel  = o_eu_alu_imm_sel;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbPcRet;
     end
@@ -241,8 +308,11 @@ always_comb begin
       o_fu_pc_op_data   = PcJALR;
       o_eu_alu_imm_sel  = o_eu_alu_imm_sel;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -253,8 +323,11 @@ always_comb begin
       o_fu_pc_op_data   = (i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluXor;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -263,8 +336,11 @@ always_comb begin
       o_fu_pc_op_data   = (~i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluXor;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -273,8 +349,11 @@ always_comb begin
       o_fu_pc_op_data   = (~i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSlt;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -283,8 +362,11 @@ always_comb begin
       o_fu_pc_op_data   = (~i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSltu;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -293,8 +375,11 @@ always_comb begin
       o_fu_pc_op_data   = (i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSlt;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -303,8 +388,11 @@ always_comb begin
       o_fu_pc_op_data   = (i_eu_alu_res_zero) ? PcBranch : PcIncr;
       o_eu_alu_imm_sel  = 0;
       o_eu_alu_op_data  = AluSltu;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -315,8 +403,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbDm;
     end
@@ -325,8 +416,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemH;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadHalf;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemH;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbDm;
     end
@@ -335,8 +429,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemHU;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadHalfU;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemHU;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbDm;
     end
@@ -345,8 +442,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemB;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadByte;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemB;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbDm;
     end
@@ -355,8 +455,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemHU;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadByteU;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemHU;
       o_du_rf_rd_wvalid = 1;
       o_eu_wb_op_data   = WbDm;
     end
@@ -367,8 +470,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 1;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 1;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 1;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -377,8 +483,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 1;
-      o_eu_dm_op_data   = MemH;
+      o_eu_lsu_store_op = StoreHalf;
+      o_eu_lsu_store_en = 1;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 1;
+      // o_eu_dm_op_data   = MemH;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -387,8 +496,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 1;
-      o_eu_dm_op_data   = MemB;
+      o_eu_lsu_store_op = StoreByte;
+      o_eu_lsu_store_en = 1;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 1;
+      // o_eu_dm_op_data   = MemB;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end
@@ -398,8 +510,11 @@ always_comb begin
       o_fu_pc_op_data   = PcIncr;
       o_eu_alu_imm_sel  = 1;
       o_eu_alu_op_data  = AluAdd;
-      o_eu_dm_wvalid    = 0;
-      o_eu_dm_op_data   = MemW;
+      o_eu_lsu_store_op = StoreWord;
+      o_eu_lsu_store_en = 0;
+      o_eu_lsu_load_op  = LoadWord;
+      // o_eu_dm_wvalid    = 0;
+      // o_eu_dm_op_data   = MemW;
       o_du_rf_rd_wvalid = 0;
       o_eu_wb_op_data   = WbAlu;
     end

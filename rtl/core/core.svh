@@ -80,12 +80,25 @@ localparam bit [3:0] AluOr    = 4'b0110;  // x6
 localparam bit [3:0] AluAnd   = 4'b0111;  // x7
 
 
+/* Store Opcodes */
+localparam bit [1:0]  StoreWord = 2'b00;
+localparam bit [1:0]  StoreHalf = 2'b01;
+localparam bit [1:0]  StoreByte = 2'b10;
+
+
+/* Load Opcodes */
+localparam bit [2:0]  LoadWord  = 3'b000;
+localparam bit [2:0]  LoadHalf  = 3'b001;
+localparam bit [2:0]  LoadHalfU = 3'b010;
+localparam bit [2:0]  LoadByte  = 3'b011;
+localparam bit [2:0]  LoadByteU = 3'b100;
+
 /* Memory Opcodes */
-localparam bit [2:0]  MemW  = 3'b000; // x0
-localparam bit [2:0]  MemH  = 3'b001; // x1
-localparam bit [2:0]  MemHU = 3'b010; // x2
-localparam bit [2:0]  MemB  = 3'b011; // x3
-localparam bit [2:0]  MemBU = 3'b100; // x4
+// localparam bit [2:0]  MemW  = 3'b000; // x0
+// localparam bit [2:0]  MemH  = 3'b001; // x1
+// localparam bit [2:0]  MemHU = 3'b010; // x2
+// localparam bit [2:0]  MemB  = 3'b011; // x3
+// localparam bit [2:0]  MemBU = 3'b100; // x4
 
 
 /* Write-back Opcodes */
