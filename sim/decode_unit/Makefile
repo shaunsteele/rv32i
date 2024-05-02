@@ -14,6 +14,7 @@ EXTRA_ARGS += --trace --trace-structs
 TOPLEVELLANG ?= verilog
 
 VERILOG_SOURCES += $(PKG_DIR)/riscv_pkg.sv
+VERILOG_SOURCES += $(RTL_DIR)/skid_buffer.sv
 VERILOG_SOURCES += $(RTL_DIR)/instruction_decode.sv
 VERILOG_SOURCES += $(RTL_DIR)/register_file.sv
 VERILOG_SOURCES += $(RTL_DIR)/decode_unit.sv

@@ -31,18 +31,18 @@ module decode_unit # (
   input var         [XLEN-1:0]  i_rf_rd_wdata
 );
 
-// assign o_im_rready = i_ex_ready;
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    o_im_rready <= 0;
-  end else begin
-    o_im_rready <= i_ex_ready;
-  end
-end
+logic [XLEN-1:0]  instruction;
+skid_buffer # (.DLEN(XLEN)) u_SB (
+  .clk      (clk),
+  .rstn     (rstn),
+  .i_valid  (i_im_rvalid),
+  .o_ready  (o_im_rready),
+  .i_data   (i_im_rdata),
+  .o_valid  (o_du_valid),
+  .i_ready  (i_ex_ready),
+  .o_data   (instruction)
+);
 
-always_comb begin
-  o_du_valid = i_im_rvalid & o_im_rready;
-end
 
 /* Instruction Decode */
 logic [6:0]       id_opcode;
@@ -55,7 +55,7 @@ logic [4:0]       id_rd_waddr;
 
 instruction_decode # (.XLEN(XLEN)) u_ID (
   .rstn           (rstn),
-  .i_im_rdata     (i_im_rdata),
+  .i_instruction  (instruction),
   .o_opcode       (id_opcode),
   .o_funct7       (id_funct7),
   .o_funct3       (id_funct3),
@@ -65,6 +65,11 @@ instruction_decode # (.XLEN(XLEN)) u_ID (
   .o_rd_waddr     (id_rd_waddr)
 );
 
+logic du_en;
+always_comb begin
+  du_en = o_du_valid & i_ex_ready;
+end
+
 always_ff @(posedge clk) begin
   if (!rstn) begin
     o_opcode <= 0;
@@ -73,7 +78,7 @@ always_ff @(posedge clk) begin
     o_immediate <= 0;
     o_rf_rd_waddr <= 0;
   end else begin
-    if (o_du_valid) begin
+    if (du_en) begin
       o_opcode <= id_opcode;
       o_funct7 <= id_funct7;
       o_funct3 <= id_funct3;
@@ -93,7 +98,7 @@ end
 register_file # (.XLEN(XLEN)) u_RF (
   .clk          (clk),
   .rstn         (rstn),
-  .i_rs_ren     (o_du_valid),
+  .i_rs_ren     (du_en),
   .i_rs1_raddr  (id_rs1_raddr),
   .o_rs1_rdata  (o_rf_rs1_rdata),
   .i_rs2_raddr  (id_rs2_raddr),

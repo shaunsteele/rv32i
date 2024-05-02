@@ -96,9 +96,8 @@ class Instruction:
       instr |= self.rs2 << 20
 
       instr |= ((self.imm & 0xFE0) >> 5) << 25
-      cocotb.log.info(f"{self.op.name}\t\
-      0x{self.op.value:01x}\t\t\tf3: 0b{self.funct3:03b}\
-        \timm: 0x  {self.imm:03x}\tr2: {self.rs2:02x}\tr1: 0x{self.rs1:02x}")
+      cocotb.log.info(f"{self.op.name}\t\0x{self.op.value:01x}\t\t\tf3: 0b{self.funct3:03b}\
+        \timm: 0x  {self.imm:03x}\tr2: 0x{self.rs2:02x}\tr1: 0x{self.rs1:02x}")
 
     elif (self.op.name == "S_BRN"):
       self.imm = random.randint(0b10, 0x1FF)
@@ -172,8 +171,15 @@ async def tb_decode_unit(dut):
     a = Instruction()
     dut.i_im_rdata.value = a.rand()
 
+  await RisingEdge(dut.clk)
+  dut.i_im_rvalid.value = 1
+  a = Instruction()
+  dut.i_im_rdata.value = a.rand()
+
   dut.i_ex_ready.value = 0
 
+  await RisingEdge(dut.clk)
+  await RisingEdge(dut.clk)
   await RisingEdge(dut.clk)
   dut.i_ex_ready.value = 1
 
