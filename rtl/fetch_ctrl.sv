@@ -8,7 +8,7 @@ module fetch_ctrl import riscv_pkg::*;
 )(
   input var                     clk,
   input var                     rstn,
-  
+
   // AXI4-Lite Master Read Address Channel
   output var logic              o_im_arvalid,
   input var logic               i_im_arready,
