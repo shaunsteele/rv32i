@@ -95,18 +95,35 @@ always_ff @(posedge clk) begin
 end
 
 /* Register File */
+logic [XLEN-1:0]  rf_rs1_rdata;
+logic [XLEN-1:0]  rf_rs2_rdata;
 register_file # (.XLEN(XLEN)) u_RF (
   .clk          (clk),
   .rstn         (rstn),
   .i_rs_ren     (du_en),
   .i_rs1_raddr  (id_rs1_raddr),
-  .o_rs1_rdata  (o_rf_rs1_rdata),
+  .o_rs1_rdata  (rf_rs1_rdata),
   .i_rs2_raddr  (id_rs2_raddr),
-  .o_rs2_rdata  (o_rf_rs2_rdata),
+  .o_rs2_rdata  (rf_rs2_rdata),
   .i_rd_waddr   (o_rf_rd_waddr),
   .i_rd_wvalid  (i_rf_rd_wvalid),
   .i_rd_wdata   (i_rf_rd_wdata)
 );
+
+always_ff @(posedge clk) begin
+  if (!rstn) begin
+    o_rf_rs1_rdata <= 0;
+    o_rf_rs2_rdata <= 0;
+  end else begin
+    if (du_en) begin
+      o_rf_rs1_rdata <= rf_rs1_rdata;
+      o_rf_rs2_rdata <= rf_rs2_rdata;
+    end else begin
+      o_rf_rs1_rdata <= o_rf_rs1_rdata;
+      o_rf_rs2_rdata <= o_rf_rs2_rdata;
+    end
+  end
+end
 
 
 endmodule

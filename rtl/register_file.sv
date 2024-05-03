@@ -9,7 +9,6 @@ module register_file # (
   input var                     rstn,
 
   // Read Interface
-  input var                     i_rs_ren,
   input var         [4:0]       i_rs1_raddr,
   output var logic  [XLEN-1:0]  o_rs1_rdata,
   input var         [4:0]       i_rs2_raddr,
@@ -27,19 +26,9 @@ logic [XLEN-1:0] register_file[32];
 
 
 /* Read Logic */
-always_ff @(posedge clk) begin
-  if (!rstn) begin
-    o_rs2_rdata <= 0;
-    o_rs1_rdata <= 0;
-  end else begin
-    if (i_rs_ren) begin
-      o_rs2_rdata <= register_file[i_rs2_raddr];
-      o_rs1_rdata <= register_file[i_rs1_raddr];
-    end else begin
-      o_rs2_rdata <= o_rs2_rdata;
-      o_rs1_rdata <= o_rs1_rdata;
-    end
-  end
+always_comb begin
+  o_rs2_rdata = register_file[i_rs2_raddr];
+  o_rd2_rdata = register_file[i_rs1_raddr];
 end
 
 
