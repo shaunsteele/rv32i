@@ -26,7 +26,6 @@ always_ff @(posedge clk) begin
   if (!rstn) begin
     pc <= 0;
   end else begin
-
     pc <= pc_d;
   end
 end

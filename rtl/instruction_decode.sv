@@ -22,30 +22,24 @@ module instruction_decode import riscv_pkg::*;
 );
 
 assign o_opcode = i_instruction[6:0];
+assign o_rs2_raddr = i_instruction[24:20];
+assign o_rs1_raddr = i_instruction[19:15];
+assign o_rd_waddr = i_instruction[11:7];
+assign o_funct7 = i_instruction[31:25];
+assign o_funct3 = i_instruction[14:12];
 
+// Immediate Decoder
 always_comb begin
   case (o_opcode)
-    // Register Format
     OpRInt: begin
       o_immediate = 0;
-      o_funct7    = i_instruction[31:25];
-      o_rs2_raddr = i_instruction[24:20];
-      o_rs1_raddr = i_instruction[19:15];
-      o_funct3    = i_instruction[14:12];
-      o_rd_waddr  = i_instruction[11:7];
     end
 
-    // Immediate Format
     OpIInt, OpIJump, OpILoad: begin
       o_immediate = {
                       {(XLEN-12){i_instruction[31]}},
                       i_instruction[31:20]
                     };
-      o_funct7    = i_instruction[31:25];
-      o_rs2_raddr = 0;
-      o_rs1_raddr = i_instruction[19:15];
-      o_funct3    = i_instruction[14:12];
-      o_rd_waddr  = i_instruction[11:7];
     end
 
     OpSBranch: begin
@@ -56,11 +50,6 @@ always_comb begin
                       i_instruction[11:8],
                       1'b0
                     };
-      o_funct7    = 0;
-      o_rs2_raddr = i_instruction[24:20];
-      o_rs1_raddr = i_instruction[19:15];
-      o_funct3    = i_instruction[14:12];
-      o_rd_waddr  = 0;
     end
 
     OpSStore: begin
@@ -69,24 +58,13 @@ always_comb begin
                       i_instruction[30:25],
                       i_instruction[11:7]
                     };
-      o_funct7    = 0;
-      o_rs2_raddr = i_instruction[24:20];
-      o_rs1_raddr = i_instruction[19:15];
-      o_funct3    = i_instruction[14:12];
-      o_rd_waddr  = 0;
     end
 
-    // Upper Format
     OpUImm, OpUPc: begin
       o_immediate = {
                       i_instruction[31:12],
                       12'b0
                     };
-      o_funct7    = 0;
-      o_rs2_raddr = 0;
-      o_rs1_raddr = 0;
-      o_funct3    = 0;
-      o_rd_waddr  = i_instruction[11:7];
     end
 
     OpUJump: begin
@@ -97,20 +75,10 @@ always_comb begin
                       i_instruction[30:21],
                       1'b0
                     };
-      o_funct7    = 0;
-      o_rs2_raddr = 0;
-      o_rs1_raddr = 0;
-      o_funct3    = 0;
-      o_rd_waddr  = i_instruction[11:7];
     end
 
     default: begin
       o_immediate = 0;
-      o_funct7    = 0;
-      o_rs2_raddr = 0;
-      o_rs1_raddr = 0;
-      o_funct3    = 0;
-      o_rd_waddr  = 0;
     end
   endcase
 end

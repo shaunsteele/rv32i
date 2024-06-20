@@ -57,8 +57,18 @@ always_comb begin
   endcase
 end
 
-assign o_res_data = res;
-assign o_res_zero = ~|res;
+// assign o_res_data = res;
+// assign o_res_zero = ~|res;
+
+always_ff @(posedge clk) begin
+  if (!rstn) begin
+    o_res_data <= 0;
+    o_res_zero <= 0;
+  end else begin
+    o_res_data <= res;
+    o_res_zero <= ~|res;
+  end
+end
 
 
 endmodule
