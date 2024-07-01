@@ -3,7 +3,8 @@
 `default_nettype none
 
 module core # (
-  parameter int XLEN = 32
+  parameter int XLEN = 32,
+  parameter int INITIAL_ADDRESS = 0
 )(
   input var       clk,
   input var       rstn,
@@ -30,7 +31,10 @@ always_comb begin
   ct_stall = wb_load_stall | ls_store_stall;
 end
 
-control_transfer # (.XLEN(XLEN)) u_CT (
+control_transfer # (
+  .XLEN             (XLEN),
+  .INITIAL_ADDRESS  (INITIAL_ADDRESS)
+) u_CT (
   .clk            (clk),
   .rstn           (rstn),
   .i_id_funct3    (id_funct3),
@@ -173,12 +177,12 @@ write_back # (.XLEN(XLEN)) u_WB (
   .i_load_en    (dr_load_en),
   .i_int_en     (dr_int_en),
   .i_jump_en    (dr_wb_jump_en),
+  .i_up_en      (dr_up_en),
   .i_waddr      (dr_rf_rd_waddr),
   .o_load_stall (wb_load_stall),
   .i_load_valid (ls_load_valid),
   .i_load_data  (ls_load_data),
   .i_int_res    (int_res),
-  .i_up_en      (dr_up_en),
   .i_up_data    (dr_up_reg),
   .i_jump_ret   (ct_jump_ret),
   .o_rd_wvalid  (wb_rf_rd_wvalid),

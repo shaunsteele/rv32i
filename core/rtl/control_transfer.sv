@@ -3,7 +3,8 @@
 `default_nettype none
 
 module control_transfer # (
-  parameter int XLEN = 32 
+  parameter int XLEN = 32,
+  parameter int INITIAL_ADDRESS = 0
 )(
   input var                     clk,
   input var                     rstn,
@@ -14,8 +15,10 @@ module control_transfer # (
   input var         [XLEN-1:0]  i_rf_rs2_rdata,
   input var         [XLEN-1:0]  i_id_immediate,
 
-  // Decoded Control Signals
+  // Stall Program Counter
   input var                     i_stall,
+
+  // Decoded Control Signals
   input var                     i_br_en,
   input var                     i_jump_en,
   input var                     i_jump_reg_sel,
@@ -74,17 +77,22 @@ always_comb begin
 end
 
 // Program Counter
+logic pc_start;
+always_ff @(posedge clk) begin
+  pc_start <= ~rstn;
+end
+
 logic [XLEN-1:0]  pc;
 logic [XLEN-1:0]  next_pc;
 
 always_comb begin
-  if (i_stall || !i_im_arready) begin
+  if (pc_start || i_stall || !i_im_arready) begin
     next_pc = pc;
   end else begin
-    if (i_jal_en || (i_br_en && br_take)) begin
+    if ((i_jump_en && !i_jump_reg_sel) || (i_br_en && br_take)) begin
       next_pc = pc + i_id_immediate;
-    end else if (i_jalr_en) begin
-      next_pc = i_rs1_rdata + i_id_immediate;
+    end else if (i_jump_en && i_jump_reg_sel) begin
+      next_pc = i_rf_rs1_rdata + i_id_immediate;
     end else begin
       next_pc = pc + 4;
     end
@@ -99,7 +107,6 @@ always_ff @(posedge clk) begin
   end
 end
 
-// probably a bug if im bus gets hung up
 always_ff @(posedge clk) begin
   o_up_pc <= pc;
 end
@@ -119,7 +126,7 @@ always_ff @(posedge clk) begin
   end
 end
 
-assign o_im_ardata = pc;
+assign o_im_araddr = pc;
 assign o_im_arprot = 3'b100; // unprivileged secure instruction access
 
 endmodule

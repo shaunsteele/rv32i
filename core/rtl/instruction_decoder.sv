@@ -9,6 +9,7 @@ module instruction_decoder # (
 
   output var logic  [6:0]       o_opcode,
 
+  // instruction control signals
   output var logic              o_br_en,
   output var logic              o_jump_en,
   output var logic              o_jump_reg_sel,
@@ -18,9 +19,11 @@ module instruction_decoder # (
   output var logic              o_load_en,
   output var logic              o_store_en,
 
+  // functions
   output var logic  [6:0]       o_funct7,
   output var logic  [2:0]       o_funct3,
 
+  // register file addresses
   output var logic              o_rs1_rvalid,
   output var logic  [4:0]       o_rs1_raddr,
 
@@ -30,6 +33,7 @@ module instruction_decoder # (
   output var logic              o_rd_wvalid,
   output var logic  [4:0]       o_rd_waddr,
 
+  // formatted immediate
   output var logic  [XLEN-1:0]  o_immediate
 );
 

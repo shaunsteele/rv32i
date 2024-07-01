@@ -17,12 +17,12 @@ localparam bit [6:0] OpSystem   = 7'b0;
 
 
 /* Branch Functions */
-localparam bit [2:0]  BrBEQ   = 2'b000;
-localparam bit [2:0]  BrBNE   = 2'b001;
-localparam bit [2:0]  BrBLT   = 2'b100;
-localparam bit [2:0]  BrBGE   = 2'b101;
-localparam bit [2:0]  BrBLTU  = 2'b110;
-localparam bit [2:0]  BrBGEU  = 2'b111;
+localparam bit [2:0]  BrBEQ   = 3'b000;
+localparam bit [2:0]  BrBNE   = 3'b001;
+localparam bit [2:0]  BrBLT   = 3'b100;
+localparam bit [2:0]  BrBGE   = 3'b101;
+localparam bit [2:0]  BrBLTU  = 3'b110;
+localparam bit [2:0]  BrBGEU  = 3'b111;
 
 
 /* Integer ALU Functions*/

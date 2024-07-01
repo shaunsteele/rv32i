@@ -12,6 +12,7 @@ module write_back # (
   input var                     i_load_en,
   input var                     i_int_en,
   input var                     i_jump_en,
+  input var                     i_up_en,
   input var         [4:0]       i_waddr,
   output var logic              o_load_stall,
 
@@ -23,7 +24,6 @@ module write_back # (
   input var         [XLEN-1:0]  i_int_res,
 
   // Upper Unit
-  input var                     i_up_en,
   input var         [XLEN-1:0]  i_up_data,
 
   // Jump Unit
