@@ -58,6 +58,113 @@ Decode Unit
         - check bit to fetch unit branch taken
     -
 
-Store Unit
-    - Receives opcode from decode unit to enable unit
-    - 
+Execute Unit
+    - receives a specific enable signal
+    - register enable signals
+    - check for valid data from specific enable signal
+        - if alu, register write back valid
+        - if load valid, raise mem busy flag
+        - 
+    - choose which unit to write back data from
+
+    - data memory writes immediately, reads in 1 clock
+
+    - ALU Enable -> ALU Result Valid -> write back rd valid
+    - Store Enable -> Data Memory Writes Valid
+    - Load Enable -> DM raddr Valid -> DM rdata valid -> write back rd valid
+
+write back shift register for pipeline
+l
+s
+
+
+    TODO:
+        -write back data selection timing
+        - branch/jump write back logic
+
+
+Fetch   Decode  Execute Memory  Writeback
+store
+pc+4
+
+branch  store
+pc+4
+
+add     branch
+pc+imm  take
+
+branch
+pc+
+
+
+        |*| |
+        | | |
+        | | |
+        | | |
+        |*| |
+        
+steps
+- reset program counter to specific address
+- fetch
+    - sends read address to instruction memory bus
+    - forwards read address to decode
+    - increments program counter
+        - inputs combos
+            - current count + 4
+            - current count + signed immediate offset (take branch) priority!
+            - current count + signed immediate offset (jump)
+            priority!
+        - adder
+- decode
+    - receives instruction from im bus
+    - instruction type determined from opcode
+    - instruction type determines intermediate encoding
+    - register file outputs determined from rs1 and rs2 encodings
+        - register bank
+        - hazard check register tag
+            - rd waddr from encoding sets
+            - rd waddr from write back resets
+        - immediate, alu result, dm read data
+    - opcode determines which execute unit to enable
+    - function, rs1 rdata, rs2 rdata, rd waddr, immediate, opcode registered
+    - rs1 and rs2 compared for branch
+- write back
+    - rd waddr from forward register
+    - rd wvalid disable take branch 2 cycle pulse
+    - rd wdata inputs selected from forwarded opcode type
+        - load result
+        - alu result forward
+        - immediate forward
+- 
+
+
+- Control Transfer
+    - IM Read Addr Channel
+        - addr register
+        - valid reset from decode hazard detection
+    - Branch
+        - Compare rs1 and rs2 data
+        - addr register is PC + immediate if branch take
+        - funct3 determines comparison type
+    - Jumps
+        - JAL
+            - addr reg is PC + immediate
+        - JALR
+            - addr reg is rs1 data + immediate
+            - funct3 == 0
+        - PC + 4 to rd forward registers
+    - interrupt (future)
+        - addr reg is interrupt address
+        - interrupt return register is PC + 4
+    - I/O
+        - im_ar(valid, ready, addr, prot==3'b100 (unprivileged secure instruction access))
+
+- Write Back
+    - Load - 0 forwarding registers
+        - 1 forwarding enable register
+    - Integer - 1 forwarding register with pause
+        - Reg-Reg
+        - Reg-Imm
+        - AUIPC
+        - LUI
+    - Jumps - 1 forwarding register with pause
