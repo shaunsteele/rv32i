@@ -46,7 +46,10 @@ async def branch(dut, funct, src1, src2, imm):
   dut.i_id_immediate.value = imm
   dut.i_br_en.value = 1
 
-  # cocotb.log.info(f"function: {funct:#05b}\tsrc1: {src1:#010x}\tsrc2: {src2:#010x}\timm: {imm:#010x}")
+  # cocotb.log.info(
+  #   f"function: {funct:#05b}\tsrc1: {src1:#010x} \
+  #   \tsrc2: {src2:#010x}\timm: {imm:#010x}")
+
   assert (dut.o_im_arvalid.value == 1)
   pc = dut.o_im_araddr.value
 
@@ -89,7 +92,8 @@ async def branch(dut, funct, src1, src2, imm):
   await FallingEdge(dut.clk)
   # cocotb.log.info(f"current pc:\t{int(pc):#010x}")
   assert dut.o_im_arvalid.value
-  assert dut.o_im_araddr.value == pc, f"{int(dut.o_im_araddr.value):#010x}\t{int(pc):#010x}"
+  assert dut.o_im_araddr.value == pc, \
+    f"{int(dut.o_im_araddr.value):#010x}\t{int(pc):#010x}"
 
 
 async def branch_test(dut):
@@ -192,7 +196,8 @@ async def stall_test(dut):
     await RisingEdge(dut.clk)
     await FallingEdge(dut.clk)
     assert (dut.o_im_arvalid)
-    assert (dut.o_im_araddr.value == pc), f"{hex(int(dut.o_im_araddr.value))}\t{hex(int(pc))}"
+    assert (dut.o_im_araddr.value == pc), \
+      f"{hex(int(dut.o_im_araddr.value))}\t{hex(int(pc))}"
 
   cocotb.log.info("Stall Test Pass")
 
