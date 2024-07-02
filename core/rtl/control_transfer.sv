@@ -82,11 +82,23 @@ always_ff @(posedge clk) begin
   pc_start <= ~rstn;
 end
 
+
+logic im_arready;
+logic im_arready_q; // Delayed ready signal to account for skid buffer
+always_ff @(posedge clk) begin
+  im_arready_q <= im_arready;
+end
+
+logic stall_pc;
+always_comb begin
+  stall_pc = i_stall | ~im_arready;
+end
+
 logic [XLEN-1:0]  pc;
 logic [XLEN-1:0]  next_pc;
 
 always_comb begin
-  if (pc_start || i_stall || !i_im_arready) begin
+  if (pc_start || stall_pc) begin
     next_pc = pc;
   end else begin
     if ((i_jump_en && !i_jump_reg_sel) || (i_br_en && br_take)) begin
@@ -120,13 +132,25 @@ end
 logic im_arvalid;
 always_ff @(posedge clk) begin
   if (!rstn) begin
-    o_im_arvalid <= 0;
+    im_arvalid <= 0;
   end else begin
-    o_im_arvalid <= 1;
+    im_arvalid <= 1;
   end
 end
 
-assign o_im_araddr = pc;
-assign o_im_arprot = 3'b100; // unprivileged secure instruction access
+logic [2:0] im_arprot;
+assign im_arprot = 3'b100; // unprivileged secure instruction access
+
+skid_buffer # (.DLEN(XLEN+3)) u_SB (
+  .clk      (clk),
+  .rstn     (rstn),
+  .i_valid  (im_arvalid),
+  .o_ready  (im_arready),
+  .i_data   ({im_arprot, pc}),
+  .o_valid  (o_im_arvalid),
+  .i_ready  (i_im_arready),
+  .o_data   ({o_im_arprot, o_im_araddr})
+);
+
 
 endmodule
